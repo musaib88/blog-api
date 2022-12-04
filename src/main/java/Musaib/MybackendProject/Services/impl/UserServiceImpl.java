@@ -58,6 +58,13 @@ public class UserServiceImpl implements UserService {
 
     }
 
+//    @Override
+//    public UserDto getUserBYName(String userName) {
+//           User user= (User) this.repo.findByName(userName);
+//
+//        return null;
+//    }
+
     private User toUser(UserDto userdt) {
         User user = new User();
         modelMapper.map(userdt, user);

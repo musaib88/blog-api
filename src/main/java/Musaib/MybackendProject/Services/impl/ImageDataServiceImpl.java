@@ -29,13 +29,15 @@ public class ImageDataServiceImpl implements ImageDataService {
     public ImageDataDto uploadFile(MultipartFile file, Integer postId) throws IOException {
           Post post=this.postRep.findById(postId).orElseThrow(()->new ResourceNotFoundException("post","postId",postId));
           ImageData imageData=new ImageData();
-          imageData.setPost(post);
 
-         this.rep.save(ImageData.builder().imageName(file.getOriginalFilename()).type(file.getContentType()).imageData(ImageDataUtility.compressImage(file.getBytes())).build());
+
+         imageData= this.rep.save(ImageData.builder().imageName(file.getOriginalFilename())
+                 .type(file.getContentType()).imageData(ImageDataUtility.compressImage(file.getBytes()))
+                 .post(post).build());
 //          if(imageData!=null){
 //              return "uploaded successfully";
 //          }
-        return this.mapper.map(imageData,ImageDataDto.class);
+        return mapper.map(imageData,ImageDataDto.class);
     }
 
     @Override

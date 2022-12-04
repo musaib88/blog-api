@@ -6,6 +6,7 @@ import Musaib.MybackendProject.Models.User;
 import Musaib.MybackendProject.Payloads.PostDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
 import java.util.List;
 
 public interface PostRep extends JpaRepository<Post, Integer> {

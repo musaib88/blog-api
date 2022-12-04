@@ -18,11 +18,10 @@ public class PostDto {
 
     private  String postTitle;
     private  String postContent;
-    private  List<ImageData> imageData =new ArrayList<>();
     private Date postDate;
     private CategoryDto category;
     private UserDto user;
-    private Set<ImageDataDto> images=new HashSet<>();
+    private  Set<ImageDataDto> images=new HashSet<>();
     private  Set<CommentDto> comments=new HashSet<>();
 
 }

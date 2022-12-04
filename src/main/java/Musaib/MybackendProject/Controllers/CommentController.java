@@ -14,9 +14,9 @@ public class CommentController {
 
     @Autowired
     CommentServiceImpl commentService;
-    @PostMapping("/{postId}")
-    public ResponseEntity<CommentDto>uplodComment(@RequestBody CommentDto commentDto, @PathVariable("postId") Integer postId){
-           CommentDto commentDto1=this.commentService.uploadComment(commentDto,postId);
+    @PostMapping("/{postId}/{userId}")
+    public ResponseEntity<CommentDto>uplodComment(@RequestBody CommentDto commentDto, @PathVariable("postId") Integer postId,@PathVariable("userId") Integer userId){
+           CommentDto commentDto1=this.commentService.uploadComment(commentDto,postId,userId);
          return ResponseEntity.ok(commentDto1);
     }
     @DeleteMapping("/{commentId}")

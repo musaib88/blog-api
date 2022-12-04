@@ -1,5 +1,6 @@
 package Musaib.MybackendProject.Controllers;
 
+import Musaib.MybackendProject.Models.ImageData;
 import Musaib.MybackendProject.Payloads.ImageDataDto;
 import Musaib.MybackendProject.Services.impl.ImageDataServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class ImageDataController {
     @PostMapping("/imageFile/{postId}")
     public ResponseEntity<?>uploadImage(@RequestParam("imageFile") MultipartFile imageFile,@PathVariable("postId") Integer postId) throws IOException {
 
-        ImageDataDto imageDataDto = this.data.uploadFile(imageFile,postId);
-        return new ResponseEntity<>(imageDataDto,HttpStatus.ACCEPTED);
+        ImageDataDto imageData = this.data.uploadFile(imageFile,postId);
+        return new ResponseEntity<>(imageData,HttpStatus.ACCEPTED);
     }
     @GetMapping("/imageFile/{downloadImage}")
     public  ResponseEntity<?>downloadImage(@PathVariable("downloadImage") String imageName ){

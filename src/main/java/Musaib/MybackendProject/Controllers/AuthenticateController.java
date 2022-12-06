@@ -37,6 +37,7 @@ public class AuthenticateController {
         final UserDetails userDetails= myUserDetailService.loadUserByUsername(authenticationRequest.getUserName());
 
         final  String Jwt=this.helper.generateToken(userDetails);
+        System.out.println("hello");
 
         return   new ResponseEntity<AuthenticationResponse>(new AuthenticationResponse(Jwt),HttpStatus.ACCEPTED);
 

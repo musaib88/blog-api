@@ -34,16 +34,16 @@ public class JwtVerification extends OncePerRequestFilter {
             username = this.jwtHelper.extractUsername(Jwt);
 
         }
-           UserDetails userDetails = null;
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() != null) {
-             userDetails = this.myUserDetailService.loadUserByUsername(username);
-        }
-        if (jwtHelper.validateToken(Jwt,userDetails )){
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-            usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            filterChain.doFilter(request,response);
-        }
 
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+            UserDetails userDetails = this.myUserDetailService.loadUserByUsername(username);
+
+            if (jwtHelper.validateToken(Jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                filterChain.doFilter(request, response);
+            }
+        }
     }
 }

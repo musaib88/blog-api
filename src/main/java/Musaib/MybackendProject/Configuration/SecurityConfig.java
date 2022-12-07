@@ -11,38 +11,44 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
-@EnableWebSecurity
+
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity
+class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
-    MyUserDetailService userDetailService;
+    MyUserDetailService myUserDetailService;
     @Autowired
-    JwtVerification jwtVerification;
-
+     JwtVerification jwtVerification ;
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService);
+    protected void configure(HttpSecurity http) throws Exception{
+                 http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/authenticate/users")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.addFilterBefore(jwtVerification, UsernamePasswordAuthenticationFilter.class);
     }
-
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-           http.csrf().disable().authorizeHttpRequests().antMatchers("/Authenticate/userDetails").permitAll().anyRequest()
-                   .authenticated().and().httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-           http.addFilterBefore(jwtVerification, UsernamePasswordAuthenticationFilter.class);
-    }
-     @Bean
-    @Override
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
-    }
-}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {auth.userDetailsService(myUserDetailService).passwordEncoder(password());
+     }
+     @Bean
+     public PasswordEncoder password(){
+        return new BCryptPasswordEncoder();
+}}

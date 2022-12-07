@@ -27,7 +27,7 @@ public class AuthenticateController {
     JwtHelper helper;
     @Autowired
     MyUserDetailService myUserDetailService;
-    @PostMapping("/userDetails")
+    @PostMapping("/users")
     public ResponseEntity<?> AuthenticateUser(@RequestBody AuthenticationRequest authenticationRequest) throws  Exception {
         try {authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(),authenticationRequest.getPassword()));}

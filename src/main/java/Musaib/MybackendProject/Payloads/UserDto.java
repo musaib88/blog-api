@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.*;
 
 @NoArgsConstructor
@@ -16,6 +18,7 @@ public class UserDto {
     private String name;
 
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotEmpty(message ="the username cant be Empty")
@@ -26,6 +29,7 @@ public class UserDto {
             + "(?=.*[a-z])(?=.*[A-Z])"
             + "(?=.*[@#$%^&+=])"
             + "(?=\\S+$).{8,20}$")
+    @Column(unique = true)
     
     private String password;
 

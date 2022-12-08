@@ -107,11 +107,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDto> findByUserName(String userName) {
 
-        List<User> users = this.userRep.findByName(userName);
-        List<List<Post>> postlist = new ArrayList<>();
-        users.forEach(user -> postlist.add(postRep.findByUser(user)));
-        List<PostDto> dtos=postlist.get(0).stream().map(item->this.mapper.map(item,PostDto.class)).collect(Collectors.toList());
-       return   dtos;
+        User user = this.userRep.findByName(userName);
+        List<Post> posts=this.postRep.findByUser(user);
+        List<PostDto> postDtos= posts.stream().map(item->this.mapper.map(item,PostDto.class)).collect(Collectors.toList());
+       return   postDtos;
     }
 
     @Override

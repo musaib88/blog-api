@@ -17,10 +17,7 @@ public class MyUserDetailService implements UserDetailsService {
     UserRep userRep;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      List<User>  user =this.userRep.findByName(username);
-       User userde=user.get(0);
-
-
-        return  userde;
+         User user=this.userRep.findByEmail(username);
+        return user;
     }
 }

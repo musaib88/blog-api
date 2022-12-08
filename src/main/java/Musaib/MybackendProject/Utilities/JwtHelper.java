@@ -1,13 +1,11 @@
 package Musaib.MybackendProject.Utilities;
 
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +14,7 @@ import java.util.function.Function;
 @Service
 public class JwtHelper {
 
-    private String SECRET_KEY = "billion";
+    private String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -28,6 +26,7 @@ public class JwtHelper {
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
+        System.out.println(claimsResolver.apply(claims));
         return claimsResolver.apply(claims);
     }
     private Claims extractAllClaims(String token) {
@@ -55,4 +54,3 @@ public class JwtHelper {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
-
